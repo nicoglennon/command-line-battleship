@@ -28,7 +28,7 @@ module Headers
     gets
   end
 
-  def self.start_playing(number)
+  def self.start_playing
     puts "\e[H\e[2J"
     puts "All ships have been positioned - press enter to start playing!"
     gets
@@ -55,5 +55,12 @@ module Headers
     gets
   end
 
+  def self.wrong_target_input
+    puts "Wrong input for target: please use required format (i.e. A1, B7, etc)"
+  end
+
+  def self.declare_winner(number)
+    puts "Game over! Player #{number} wins!"
+  end
 
 end

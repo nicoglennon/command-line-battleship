@@ -1,7 +1,15 @@
+require_relative 'headers'
+
 module BoardView
 
   def self.get_target
-    gets.chomp
+    input = gets.chomp
+    # check if correct input:
+    until input =~ /([A-Z])([1-9][0]*)/
+      Headers.wrong_target_input
+      input = gets.chomp
+    end
+    input
   end
 
   def self.state(board)

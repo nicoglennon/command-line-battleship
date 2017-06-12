@@ -36,7 +36,7 @@ class BoardController
       end
       #print positions of this ship
       ShipView.positions(ship)
-      # store the new ship with user entered locations
+      # store the new ship with user-entered locations
       key = ship.class.to_s.downcase.to_sym
       ship_instances[key] = ship
     end
@@ -44,7 +44,78 @@ class BoardController
     new_board = Board.new(ship_instances)
   end
 
-  def play_turn()
+  def play(player_1_board, player_2_board)
+    Headers.start_playing
+    turn_switch = 1
+    until player_1_board.empty? || player_2_board.empty?
 
+      # decide who's turn is it
+      case turn_switch
+      when 1
+        turn = "1"
+        current_board = player_2_board
+      when -1
+        turn = "2"
+        current_board = player_1_board
+      end
+
+      # main header
+      Headers.main
+      # current player header
+      Headers.player(turn)
+      # current board state
+      BoardView.state(current_board)
+      # header for preparing to play
+      Headers.prep_for_fire(turn)
+      target = BoardView.get_target
+
+      #convert input into coordinates
+      target_coordinates = Converter.convert(target)
+
+      # fire at the board with coordinates
+      if current_board.fire(target)
+        # mark on the board as a hit
+        current_board.mark_hit(target_coordinates)
+        #main header
+        Headers.main
+        #current player header
+        Headers.player(turn)
+        # current board state
+        BoardView.state(current_board)
+        # hit something header
+        Headers.hit_something
+
+        # scan if a ship was sunk:
+        if current_board.scan
+          # print 'sunk ship' header
+          Headers.sink_ship
+        end
+
+      #if no ship was hit
+      else
+        # mark as a miss in the current board
+        current_board.mark_miss(target_coordinates)
+        # main header
+        Headers.main
+        # current player header
+        Headers.player(turn)
+        # current board state
+        BoardView.state(current_board)
+        # 'missed shot' header
+        Headers.miss
+      end
+      # 'switch players' header
+      Headers.switch_players
+
+      # switch player
+      turn_switch *= -1
+    end
+
+    # declare winner
+    if player_1_board.empty?
+      Headers.declare_winner("2")
+    else
+      Headers.declare_winner("1")
+    end
   end
 end
