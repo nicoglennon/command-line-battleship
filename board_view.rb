@@ -5,7 +5,7 @@ module BoardView
   def self.get_target
     input = gets.chomp
     # check if correct input:
-    until input =~ /([A-Z])([1-9][0]*)/
+    until /^[A-J][1-9]0?$/ =~ input
       Headers.wrong_target_input
       input = gets.chomp
     end

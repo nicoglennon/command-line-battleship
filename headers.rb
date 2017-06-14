@@ -9,7 +9,10 @@ module Headers
 
   def self.positioning
     puts "POSITION YOUR SHIPS\n"
-    puts "--------------------------\n\n"
+    puts "---------------------\n"
+    puts "\nPOSITIONING INSTRUCTIONS:"
+    puts "\n"
+    puts "You will be placing EACH PIECE of each of your ships. \nFor example, the Carrier has 5 pieces, so you if you wanted to set it horizontally starting in A1 you would enter: A1, A2, A3, A4, A5 \n(the locations must be entered one by one, so you would start with A1 and press return, then A2 and press return, etc):\n\n"
   end
 
   def self.play
